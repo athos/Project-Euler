@@ -22,5 +22,13 @@
 
 (ns problem014)
 
+(defn collatz-step [n]
+  (loop [n n, step (int 0)]
+    (cond (= n 1) step
+	  (even? n) (recur (/ n 2) (inc step))
+	  :else     (recur (+ (* 3 n) 1) (inc step)))))
+
 (defn solve []
-  nil)
+  (second (reduce #(if (> (first %1) (first %2)) %1 %2)
+		  (map (fn [n] [(collatz-step n) n])
+		       (range 1 1000000)))))
