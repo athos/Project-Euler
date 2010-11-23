@@ -4,7 +4,8 @@
 
 ;; Find the sum of all the primes below two million.
 
-(ns problem010)
+(ns problem010
+  (:use [utils :only (primes-under |)]))
 
 (defn solve []
-  nil)
+  (reduce + (primes-under 2000000)))
