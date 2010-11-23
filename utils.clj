@@ -26,3 +26,9 @@
 					   (assoc! t j false))
 				    t)))]
 			(recur (inc i) (iter t)))))))))
+
+(defn gcd [m n]
+  (let [r (mod m n)]
+    (if (= r 0)
+      n
+      (recur n r))))

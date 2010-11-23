@@ -6,13 +6,8 @@
 ;; What is the smallest positive number that is evenly
 ;; divisible by all of the numbers from 1 to 20?
 
-(ns problem005)
-
-(defn gcd [m n]
-  (let [r (mod m n)]
-    (if (= r 0)
-      n
-      (recur n r))))
+(ns problem005
+  (:use [utils :only (gcd)]))
 
 (defn solve []
   (reduce (fn [p n]
