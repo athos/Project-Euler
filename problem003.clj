@@ -4,22 +4,22 @@
 
 ;; What is the largest prime factor of the number 600851475143 ?
 
-(ns problem003)
-
-(defn | [m n]
-  (= (mod m n) 0))
+(ns problem003
+  (:use [utils :only (primes-under ceiling |)]))
 
 (defn divide* [m n]
   (loop [m m]
     (if (| m n)
-      (/ m n)
+      (recur (/ m n))
       m)))
 
 (defn solve
   ([] (solve 600851475143))
   ([m]
-   (loop [i 3, n m, ret 1]
-     (println i n ret)
-     (cond (> i m) ret
-	   (| n i) (recur (+ i 2) (divide* n i) i)
-	   :else (recur (+ i 2) n ret)))))
+   (loop [[p & ps :as pps] (primes-under (ceiling (Math/sqrt m))),
+	  m m
+	  ret 1]
+     (cond (= m 1) ret
+	   (empty? pps) (max m ret)
+	   (| m p) (recur ps (divide* m p) p)
+	   :else (recur ps m ret)))))
