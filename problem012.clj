@@ -22,7 +22,27 @@
 ;; What is the value of the first triangle number to have
 ;; over five hundred divisors?
 
-(ns problem012)
+(ns problem012
+  (:use [utils :only (| ceiling)]))
+
+(defn triangle-numbers
+  ([] (triangle-numbers 1))
+  ([n]
+   (lazy-seq
+     (cons (/ (* n (inc n)) 2)
+	   (triangle-numbers (inc n))))))
+
+(defn num-of-divisors [n]
+  (let [n* (int (ceiling (Math/sqrt n)))]
+    (loop [d (int 1), num 0]
+      (cond (> d n*) num
+	    (| n d)
+	    (if (= d n*)
+	      (recur (inc d) (inc num))
+	      (recur (inc d) (+ num 2)))
+	    :else (recur (inc d) num)))))
 
 (defn solve []
-  nil)
+  (loop [[t & ts] (triangle-numbers)]
+    (or (and (> (num-of-divisors t) 500) t)
+	(recur ts))))
