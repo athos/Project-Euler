@@ -35,3 +35,6 @@
 
 (defn ! [n]
   (reduce * (range 1 (inc n))))
+
+(defn char->integer [c]
+  (Character/digit c 10))

@@ -5,7 +5,7 @@
 ;; Find the sum of the digits in the number 100!
 
 (ns problem020
-  (:use [utils :only (!)]))
+  (:use [utils :only (! char->integer)]))
 
 (defn solve []
-  (reduce + (map #(Character/digit % 10) (str (! 100)))))
+  (reduce + (map char->integer (str (! 100)))))
