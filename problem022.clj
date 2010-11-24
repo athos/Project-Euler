@@ -12,7 +12,29 @@
 
 ;; What is the total of all the name scores in the file?
 
-(ns problem022)
+(ns problem022
+  (:use [clojure.contrib.io :only (reader)])
+  (:import java.io.PushbackReader))
+
+(def the-filename "names.txt")
+
+(defn names []
+  (let [r (PushbackReader. (reader the-filename))]
+    (loop [ns (sorted-set)]
+      (if-let [name (read r false nil)]
+	(recur (conj ns name))
+	(do (.close r)
+	    ns)))))
+
+(defn alphabetical-value [word]
+  (let [base (dec (int \A))]
+    (reduce + (map #(- (int %) base) word))))
 
 (defn solve []
-  nil)
+ (loop [pos 1, [name & names] (seq (names)), total 0]
+   (if (nil? name)
+     total
+     (recur (inc pos)
+	    names
+	    (+ (* pos (alphabetical-value name))
+	       total)))))
