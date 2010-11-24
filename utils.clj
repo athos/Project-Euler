@@ -32,3 +32,6 @@
     (if (= r 0)
       n
       (recur n r))))
+
+(defn ! [n]
+  (reduce * (range 1 (inc n))))
