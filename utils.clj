@@ -6,6 +6,12 @@
 (defn ceiling [n]
   (int (Math/ceil n)))
 
+(defn fibs
+  ([] (fibs 0 1))
+  ([a b]
+   (lazy-seq
+     (cons b (fibs b (+ a b))))))
+
 (defn primes-under [n]
   (let [n* (ceiling (/ n 2))]
     (letfn [(val-at [i]

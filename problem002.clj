@@ -9,13 +9,8 @@
 ;; Find the sum of all the even-valued terms in the sequence
 ;; which do not exceed four million.
 
-(ns problem002)
-
-(defn fib
-  ([] (fib 0 1))
-  ([a b]
-   (lazy-seq
-     (cons b (fib b (+ a b))))))
+(ns problem002
+  (:use [utils :only (fibs)]))
 
 (defn solve []
-  (reduce + (take-while #(<= % 4000000) (filter even? (fib)))))
+  (reduce + (take-while #(<= % 4000000) (filter even? (fibs)))))
