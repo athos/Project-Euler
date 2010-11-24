@@ -7,5 +7,11 @@
 
 (ns problem015)
 
+(defn ! [n]
+  (reduce * (range 1 (inc n))))
+
+(defn C [m n]
+  (/ (! m) (! n) (! (- m n))))
+
 (defn solve []
-  nil)
+  (C 40 20))
