@@ -40,7 +40,7 @@
   (Character/digit c 10))
 
 (defn divisors-of [n]
-  (let [n* (int (ceiling (Math/sqrt n)))]
+  (let [n* (Math/sqrt n)]
     (loop [d (int 1), ds []]
       (cond (> d n*) ds
 	    (| n d)

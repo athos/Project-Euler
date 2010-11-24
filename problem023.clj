@@ -20,7 +20,21 @@
 ;; Find the sum of all the positive integers which cannot be written
 ;; as the sum of two abundant numbers.
 
-(ns problem023)
+(ns problem023
+  (:use [utils :only (sum-of-proper-divisors)]))
+
+(defn abundant? [n]
+  (< n (sum-of-proper-divisors n)))
+
+(defn abundant-numbers []
+  (filter abundant? (iterate inc 0)))
+
+(defn decomposable? [n]
+  (loop [[i & is] (take-while #(<= % (int (/ n 2))) (abundant-numbers))]
+    (cond (nil? i) nil
+	  (abundant? (- n i)) [i (- n i)]
+	  :else (recur is))))
 
 (defn solve []
-  nil)
+  (binding [abundant? (memoize abundant?)]
+    (reduce + (remove decomposable? (range 1 (inc 28123))))))
