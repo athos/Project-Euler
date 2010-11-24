@@ -12,10 +12,7 @@
 ;; Evaluate the sum of all the amicable numbers under 10000.
 
 (ns problem021
-  (:use [utils :only (divisors-of)]))
-
-(defn sum-of-proper-divisors [n]
-  (reduce + (rest (divisors-of n))))
+  (:use [utils :only (sum-of-proper-divisors)]))
 
 (defn amicable-numbers-under [max]
   (loop [i 1, as #{}]

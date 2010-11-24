@@ -48,3 +48,6 @@
 	      (recur (inc d) (conj ds d))
 	      (recur (inc d) (conj ds (/ n d) d)))
 	    :else (recur (inc d) ds)))))
+
+(defn sum-of-proper-divisors [n]
+  (reduce + (rest (divisors-of n))))
