@@ -13,5 +13,14 @@
 
 (ns problem024)
 
+(defn permutations [ns]
+  (lazy-seq
+    (if (empty? ns)
+      '(())
+      (for [i ns, is (permutations (disj ns i))]
+	(cons i is)))))
+
 (defn solve []
-  nil)
+  (reduce #(+ (* 10 %1) %2)
+	  (nth (permutations (into (sorted-set) (range 10)))
+	       (dec 1000000))))
