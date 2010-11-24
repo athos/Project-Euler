@@ -23,7 +23,12 @@
 
 ;; What is the first term in the Fibonacci sequence to contain 1000 digits?
 
-(ns problem025)
+(ns problem025
+  (:use [utils :only (fibs)]))
 
 (defn solve []
-  nil)
+  (let [n (.pow (BigInteger/valueOf 10) 999)]
+    (loop [i 1, [f & fs] (fibs)]
+      (if (>= f n)
+	i
+	(recur (inc i) fs)))))
