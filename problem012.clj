@@ -23,7 +23,7 @@
 ;; over five hundred divisors?
 
 (ns problem012
-  (:use [utils :only (| ceiling)]))
+  (:use [utils :only (divisors-of)]))
 
 (defn triangle-numbers
   ([] (triangle-numbers 1))
@@ -33,14 +33,7 @@
 	   (triangle-numbers (inc n))))))
 
 (defn num-of-divisors [n]
-  (let [n* (int (ceiling (Math/sqrt n)))]
-    (loop [d (int 1), num 0]
-      (cond (> d n*) num
-	    (| n d)
-	    (if (= d n*)
-	      (recur (inc d) (inc num))
-	      (recur (inc d) (+ num 2)))
-	    :else (recur (inc d) num)))))
+  (count (divisors-of n)))
 
 (defn solve []
   (loop [[t & ts] (triangle-numbers)]

@@ -12,17 +12,7 @@
 ;; Evaluate the sum of all the amicable numbers under 10000.
 
 (ns problem021
-  (:use [utils :only (ceiling |)]))
-
-(defn divisors-of [n]
-  (let [n* (int (ceiling (Math/sqrt n)))]
-    (loop [d (int 1), ds []]
-      (cond (> d n*) ds
-	    (| n d)
-	    (if (= d n*)
-	      (recur (inc d) (conj ds d))
-	      (recur (inc d) (conj ds (/ n d) d)))
-	    :else (recur (inc d) ds)))))
+  (:use [utils :only (divisors-of)]))
 
 (defn sum-of-proper-divisors [n]
   (reduce + (rest (divisors-of n))))
