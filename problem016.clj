@@ -7,4 +7,5 @@
 (ns problem016)
 
 (defn solve []
-  nil)
+  (reduce + (map #(Character/digit % 10)
+		 (str (.pow (BigInteger/valueOf 2) 1000)))))
