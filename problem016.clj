@@ -5,8 +5,8 @@
 ;; What is the sum of the digits of the number 2^(1000)?
 
 (ns problem016
-  (:use [utils :only (char->integer)]))
+  (:use [utils :only (digit->integer)]))
 
 (defn solve []
-  (reduce + (map char->integer
+  (reduce + (map digit->integer
 		 (str (.pow (BigInteger/valueOf 2) 1000)))))

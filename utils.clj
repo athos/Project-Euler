@@ -36,7 +36,7 @@
 (defn ! [n]
   (reduce * (range 1 (inc n))))
 
-(defn char->integer [c]
+(defn digit->integer [c]
   (Character/digit c 10))
 
 (defn divisors-of [n]
