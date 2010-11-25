@@ -14,7 +14,17 @@
 ;; What is the sum of the numbers on the diagonals in a 1001 by 1001
 ;; spiral formed in the same way?
 
-(ns problem028)
+(ns problem028
+  (:use [utils :only (|)]))
+
+(defn numbers-on-diagonals []
+  (letfn [(rec [i v d]
+	    (lazy-seq
+		(cons v (rec (inc i)
+			     (+ v d)
+			     (if (| i 4) (+ d 2) d)))))]
+    (rec 1 1 2)))
 
 (defn solve []
-  nil)
+  (reduce + (take-while #(<= % (* 1001 1001))
+			(numbers-on-diagonals))))
