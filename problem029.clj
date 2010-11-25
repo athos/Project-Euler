@@ -17,5 +17,9 @@
 
 (ns problem029)
 
+(defn numbers-generated-from [m n]
+  (seq (set (for [a (range 2 (inc m)), b (range 2 (inc n))]
+	      (.pow (BigInteger/valueOf a) b)))))
+
 (defn solve []
-  nil)
+  (count (numbers-generated-from 100 100)))
