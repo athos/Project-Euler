@@ -7,7 +7,10 @@
 
 ;; Note: as 1! = 1 and 2! = 2 are not sums they are not included.
 
-(ns problem034)
+(ns problem034
+  (:use [utils :only (! number->digits)]))
 
 (defn solve []
-  nil)
+  (reduce + (for [i (range 3 10000000)
+		  :when (= i (reduce + (map ! (number->digits i))))]
+	      i)))
