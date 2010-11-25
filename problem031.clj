@@ -13,5 +13,15 @@
 
 (ns problem031)
 
+(defn charge [n]
+  (letfn [(rec [n [c & cs :as ccs] acc]
+	    (lazy-seq
+	      (cond (= n 0) [acc]
+		    (nil? ccs) nil
+		    (< n c) (rec n cs acc)
+		    :else (lazy-cat (rec (- n c) ccs (conj acc c))
+				    (rec n cs acc)))))]
+    (rec n [200 100 50 20 10 5 2 1] [])))
+
 (defn solve []
-  nil)
+  (count (charge 200)))
