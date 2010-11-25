@@ -22,5 +22,29 @@
 
 (ns problem026)
 
+(defn quotient-sequence [n d]
+  (loop [r n, t (hash-map)]
+    (if (t r) t
+	(let [r* (* 10 (mod r d))]
+	  (recur r* (assoc t r [(quot r d) r*]))))))
+
+(defn recurring-cycle [n d]
+  (let [qseq (quotient-sequence n d)]
+    (letfn [(seq-start-with [n]
+	      (let [[q i] (qseq n)]
+		(loop [i i, s [q]]
+		  (if (= i n)
+		    s
+		    (let [[q* i*] (qseq i)]
+		      (recur i* (conj s q*)))))))]
+      (loop [n n, visited #{}]
+	(if (visited n)
+	  (seq-start-with n)
+	  (let [[_ n*] (qseq n)]
+	    (recur n* (conj visited n))))))))
+
 (defn solve []
-  nil)
+  (reduce (fn [[mn ml :as m] [xn xl :as x]]
+	    (if (> xl ml) x m))
+	  (for [i (range 2 1000)]
+	    [i (count (recurring-cycle 1 i))])))
