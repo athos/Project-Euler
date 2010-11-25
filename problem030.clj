@@ -14,13 +14,8 @@
 ;; Find the sum of all the numbers that can be written as the sum
 ;; of fifth powers of their digits.
 
-(ns problem030)
-
-(defn number->digits [n]
-  (loop [n n, ds nil]
-    (if (= n 0)
-      ds
-      (recur (quot n 10) (cons (mod n 10) ds)))))
+(ns problem030
+  (:use [utils :only (number->digits)]))
 
 (defn fifth-power-of [n]
   (* n n n n n))

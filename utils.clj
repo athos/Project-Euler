@@ -64,3 +64,9 @@
       '(())
       (for [i ns, is (permutations (disj ns i))]
 	(cons i is)))))
+
+(defn number->digits [n]
+  (loop [n n, ds nil]
+    (if (= n 0)
+      ds
+      (recur (quot n 10) (cons (mod n 10) ds)))))
