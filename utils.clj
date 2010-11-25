@@ -57,3 +57,10 @@
 
 (defn sum-of-proper-divisors [n]
   (reduce + (rest (divisors-of n))))
+
+(defn permutations [ns]
+  (lazy-seq
+    (if (empty? ns)
+      '(())
+      (for [i ns, is (permutations (disj ns i))]
+	(cons i is)))))

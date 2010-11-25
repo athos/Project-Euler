@@ -11,14 +11,8 @@
 ;; What is the millionth lexicographic permutation of the digits
 ;; 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 
-(ns problem024)
-
-(defn permutations [ns]
-  (lazy-seq
-    (if (empty? ns)
-      '(())
-      (for [i ns, is (permutations (disj ns i))]
-	(cons i is)))))
+(ns problem024
+  (:use [utils :only (permutations)]))
 
 (defn solve []
   (reduce #(+ (* 10 %1) %2)
