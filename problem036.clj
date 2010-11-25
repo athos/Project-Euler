@@ -9,7 +9,11 @@
 ;; (Please note that the palindromic number, in either base,
 ;; may not include leading zeros.)
 
-(ns problem036)
+(ns problem036
+  (:use [utils :only (palindromic?)]))
 
 (defn solve []
-  nil)
+  (reduce + (for [i (range 1 1000000)
+		  :when (and (palindromic? i)
+			     (palindromic? (Integer/toString i 2)))]
+	      i)))
