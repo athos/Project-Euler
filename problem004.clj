@@ -7,11 +7,8 @@
 ;; Find the largest palindrome made from the product
 ;; of two 3-digit numbers.
 
-(ns problem004)
-
-(defn palindromic? [n]
-  (let [s (str n)]
-    (= (seq s) (reverse s))))
+(ns problem004
+  (:use [utils :only (palindromic?)]))
 
 (defn solve []
   (let [xs (range 999 99 -1)]

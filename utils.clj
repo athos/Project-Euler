@@ -70,3 +70,7 @@
     (if (= n 0)
       ds
       (recur (quot n 10) (cons (mod n 10) ds)))))
+
+(defn palindromic? [n]
+  (let [s (str n)]
+    (= (seq s) (reverse s))))
