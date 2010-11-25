@@ -15,7 +15,24 @@
 ;; If the product of these four fractions is given in its
 ;; lowest common terms, find the value of the denominator.
 
-(ns problem033)
+(ns problem033
+  (:use [utils :only (number->digits)]))
+
+(defn unorthodox-cancelling [[n d]]
+  (let [[n0 n1] (number->digits n)
+	[d0 d1] (number->digits d)]
+    (letfn [(f [x y v w]
+	      (if (and (= x y) (not= x 0) (not= w 0))
+		[[v w]] nil))]
+      (distinct (concat (f n0 d0 n1 d1)
+			(f n0 d1 n1 d0)
+			(f n1 d0 n0 d1)
+			(f n1 d1 n0 d0))))))
 
 (defn solve []
-  nil)
+  (.denominator
+    (reduce * (for [n (range 10 100)
+		    d (range (inc n) 100)
+		    [n* d*] (unorthodox-cancelling [n d])
+		    :when (= (/ n d) (/ n* d*))]
+		(/ n d)))))
