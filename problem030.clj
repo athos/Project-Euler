@@ -16,5 +16,17 @@
 
 (ns problem030)
 
+(defn number->digits [n]
+  (loop [n n, ds nil]
+    (if (= n 0)
+      ds
+      (recur (quot n 10) (cons (mod n 10) ds)))))
+
+(defn fifth-power-of [n]
+  (* n n n n n))
+
 (defn solve []
-  nil)
+  (reduce + (for [i (range 2 1000000)
+		  :when (= i (reduce + (map fifth-power-of
+					    (number->digits i))))]
+	      i)))
