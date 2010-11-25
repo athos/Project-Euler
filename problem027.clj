@@ -24,7 +24,23 @@
 ;; expression that produces the maximum number of primes for consecutive
 ;; values of n, starting with n = 0.
 
-(ns problem027)
+(ns problem027
+  (:use [utils :only (primes-under)]))
+
+(def primes
+  (into (sorted-set)
+	(primes-under 1000000)))
+
+(defn primes-generated-from [a b]
+  (letfn [(step [i]
+	    (lazy-seq
+	      (cons (+ (* i i) (* a i) b)
+		    (step (inc i)))))]
+    (take-while primes (step 0))))
 
 (defn solve []
-  nil)
+  (reduce (fn [[v a b :as x] [v* a* b* :as x*]]
+	    (if (> v* v) x* x))
+	  (for [a (range -999 1000),
+		b (range -999 1000)]
+	    [(count (primes-generated-from a b)) a b])))
