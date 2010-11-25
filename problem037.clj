@@ -10,7 +10,23 @@
 
 ;; NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
 
-(ns problem037)
+(ns problem037
+  (:use [utils :only (primes-under number->digits)]))
+
+(defn truncated-numbers [n]
+  (map (fn [ds] (reduce #(+ (* 10 %1) %2) ds))
+       (let [v (vec (number->digits n))]
+	 (lazy-cat
+	   (take-while #(not (empty? %))
+		       (rest (iterate rest v)))
+	   (take-while #(not (empty? %))
+		       (rest (iterate #(subvec % 0 (dec (count %))) v)))))))
+
+(def primes
+  (into (sorted-set)
+	(primes-under 1000000)))
 
 (defn solve []
-  nil)
+  (reduce + (for [p (drop 4 (seq primes))
+		  :when (every? primes (truncated-numbers p))]
+	      p)))
