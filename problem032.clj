@@ -13,7 +13,26 @@
 ;; HINT: Some products can be obtained in more than one way so be
 ;; sure to only include it once in your sum.
 
-(ns problem032)
+(ns problem032
+  (:use [utils :only (number->digits divisors-of)]))
+
+(def all-digits #{1 2 3 4 5 6 7 8 9})
+
+(defn pandigital? [x y z]
+  (empty? (apply disj
+		 all-digits
+		 (concat (number->digits x)
+			 (number->digits y)
+			 (number->digits z)))))
+
+(defn find-all-products []
+  (distinct (for [i (range 1000 10000)
+		  d0 (divisors-of i)
+		  :let [d1 (/ i d0)]
+		  :when (and (or (and (<= 10 d0 99) (<= 100 d1 999))
+				 (and (<= 1 d0 9) (<= 1000 d1 9999)))
+			     (pandigital? i d0 d1))]
+	      i)))
 
 (defn solve []
-  nil)
+  (reduce + (find-all-products)))
