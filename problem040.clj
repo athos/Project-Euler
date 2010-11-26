@@ -12,7 +12,21 @@
 
 ;; d_(1) × d_(10) × d_(100) × d_(1000) × d_(10000) × d_(100000) × d_(1000000)
 
-(ns problem040)
+(ns problem040
+  (:use [utils :only (number->digits)]))
+
+(def target-numbers
+  [1 10 100 1000 10000 100000 1000000])
+
+(defn digits [i]
+  (lazy-cat (number->digits i)
+	    (digits (inc i))))
 
 (defn solve []
-  nil)
+  (loop [i 1
+	 [d & ds] (digits 1)
+	 [n & ns :as nns] target-numbers
+	 p 1]
+    (cond (empty? ns) p
+	  (= i n) (recur (inc i) ds ns (* d p))
+	  :else (recur (inc i) ds nns p))))
