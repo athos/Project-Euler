@@ -18,7 +18,38 @@
 ;; that can be formed as the concatenated product of an integer
 ;; with (1,2, ... , n) where n > 1?
 
-(ns problem038)
+(ns problem038
+  (:use [utils :only (number->digits)]))
+
+(def all-digits
+  #{1 2 3 4 5 6 7 8 9})
+
+(defn multiples-of [n]
+  (iterate #(+ % n) n))
+
+(defn reduce-unused [unused xs]
+  (reduce (fn [unused x]
+	    (and unused
+		 (unused x)
+		 (disj unused x)))
+	  unused
+	  xs))
+
+(defn pandigital-multiples [n]
+  (loop [[m & ms] (multiples-of n)
+	 unused all-digits
+	 ret []]
+    (if (empty? unused)
+      ret
+      (let [ds (number->digits m)]
+	(if-let [unused* (reduce-unused unused ds)]
+	  (recur ms unused* (into ret ds))
+	  nil)))))
+
+(defn digits->number [ds]
+  (reduce #(+ (* 10 %1) %2) 0 ds))
 
 (defn solve []
-  nil)
+  (reduce max
+	  (map #(digits->number (pandigital-multiples %))
+	       (range 1 100000))))
