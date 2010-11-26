@@ -11,10 +11,10 @@
 ;; NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
 
 (ns problem037
-  (:use [utils :only (primes-under number->digits)]))
+  (:use [utils :only (primes-under number->digits digits->number)]))
 
 (defn truncated-numbers [n]
-  (map (fn [ds] (reduce #(+ (* 10 %1) %2) ds))
+  (map digits->number
        (let [v (vec (number->digits n))]
 	 (lazy-cat
 	   (take-while #(not (empty? %))

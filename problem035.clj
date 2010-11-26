@@ -9,7 +9,7 @@
 ;; How many circular primes are there below one million?
 
 (ns problem035
-  (:use [utils :only (primes-under number->digits)]))
+  (:use [utils :only (primes-under number->digits digits->number)]))
 
 (def primes
   (into (sorted-set)
@@ -28,7 +28,7 @@
 	       (conj acc v))))))
 
 (defn circular-prime? [p]
-  (every? (fn [ds] (primes (reduce #(+ (* 10 %1) %2) ds)))
+  (every? #(primes (digits->number %))
 	  (rotations (number->digits p))))
 
 (defn solve []

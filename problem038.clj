@@ -19,13 +19,10 @@
 ;; with (1,2, ... , n) where n > 1?
 
 (ns problem038
-  (:use [utils :only (number->digits)]))
+  (:use [utils :only (multiples-of number->digits digits->number)]))
 
 (def all-digits
   #{1 2 3 4 5 6 7 8 9})
-
-(defn multiples-of [n]
-  (iterate #(+ % n) n))
 
 (defn reduce-unused [unused xs]
   (reduce (fn [unused x]
@@ -45,9 +42,6 @@
 	(if-let [unused* (reduce-unused unused ds)]
 	  (recur ms unused* (into ret ds))
 	  nil)))))
-
-(defn digits->number [ds]
-  (reduce #(+ (* 10 %1) %2) 0 ds))
 
 (defn solve []
   (reduce max

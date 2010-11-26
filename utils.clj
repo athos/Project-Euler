@@ -6,6 +6,9 @@
 (defn ceiling [n]
   (int (Math/ceil n)))
 
+(defn floor [n]
+  (int (Math/floor n)))
+
 (defn fibs
   ([] (fibs 0 1))
   ([a b]
@@ -55,6 +58,9 @@
 	      (recur (inc d) (conj ds (/ n d) d)))
 	    :else (recur (inc d) ds)))))
 
+(defn multiples-of [n]
+  (iterate #(+ % n) n))
+
 (defn sum-of-proper-divisors [n]
   (reduce + (rest (divisors-of n))))
 
@@ -70,6 +76,9 @@
     (if (= n 0)
       ds
       (recur (quot n 10) (cons (mod n 10) ds)))))
+
+(defn digits->number [ds]
+  (reduce #(+ (* 10 %1) %2) 0 ds))
 
 (defn palindromic? [n]
   (let [s (str n)]

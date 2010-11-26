@@ -12,9 +12,8 @@
 ;; 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 
 (ns problem024
-  (:use [utils :only (permutations)]))
+  (:use [utils :only (digits->number permutations)]))
 
 (defn solve []
-  (reduce #(+ (* 10 %1) %2)
-	  (nth (permutations (into (sorted-set) (range 10)))
-	       (dec 1000000))))
+  (digits->number (nth (permutations (into (sorted-set) (range 10)))
+		       (dec 1000000))))
