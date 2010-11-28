@@ -7,11 +7,11 @@
 ;; What is the largest n-digit pandigital prime that exists?
 
 (ns problem041
-  (:use [utils :only (| ceiling primes-under number->digits)]))
+  (:use [utils :only (| ceiling primes-under digits->number permutations)]))
 
-(defn pandigital? [m n]
+(defn pandigital? [ds n]
   (let [digits (set (range 1 (inc n)))]
-    (loop [ds (number->digits m),
+    (loop [ds ds,
 	   digits digits]
       (or (and (empty? digits)
 	       (empty? ds))
@@ -19,10 +19,10 @@
 	       (recur (rest ds) (disj digits (first ds))))))))
 
 (defn solve []
-  (let [n 10000000
-	num 7
-	primes (primes-under (ceiling (Math/sqrt n)))]
-    (first (for [i (range n (/ n 10) -1)
+  (let [num 7
+	primes (primes-under (ceiling (Math/sqrt (Math/pow 10 num))))]
+    (first (for [ds (permutations (range 1 (inc num)) :desc)
+		 :let [i (digits->number ds)]
 		 :when (and (every? #(not (| i %)) primes)
-			    (pandigital? i num))]
+			    (pandigital? ds num))]
 	     i))))

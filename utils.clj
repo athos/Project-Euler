@@ -64,12 +64,18 @@
 (defn sum-of-proper-divisors [n]
   (reduce + (rest (divisors-of n))))
 
-(defn permutations [ns]
-  (lazy-seq
-    (if (empty? ns)
-      '(())
-      (for [i ns, is (permutations (disj ns i))]
-	(cons i is)))))
+(defn permutations [ns & [order]]
+  (let [ns (into (sorted-set) ns)
+	f (if (= order :desc)
+	    rseq
+	    seq)]
+    (letfn [(rec [ns]
+	      (lazy-seq
+	       (if (empty? ns)
+		 '(())
+		 (for [i (f ns), is (rec (disj ns i))]
+		   (cons i is)))))]
+      (rec ns))))
 
 (defn number->digits [n]
   (loop [n n, ds nil]
