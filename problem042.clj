@@ -15,7 +15,29 @@
 ;; a 16K text file containing nearly two-thousand common English words,
 ;; how many are triangle words?
 
-(ns problem042)
+(ns problem042
+  (:use [clojure.contrib.io :only (reader)])
+  (:import java.io.PushbackReader))
+
+(def the-filename "words.txt")
+
+(defn words []
+  (let [r (PushbackReader. (reader the-filename))]
+    (letfn [(rec []
+	      (lazy-seq
+	        (if-let [v (read r false nil)]
+		  (cons v (rec))
+		  (do (.close r)
+		      nil))))]
+      (rec))))
+
+(defn word-value [word]
+  (reduce + (map #(inc (- (int %) (int \A))) word)))
+
+(def triangle-numbers
+  (set (map #(/ (* % (+ % 1)) 2) (range 1 30))))
 
 (defn solve []
-  nil)
+  (count (for [word (words)
+	       :when (triangle-numbers (word-value word))]
+	   word)))
