@@ -17,7 +17,12 @@
 
 ;; Find the sum of all 0 to 9 pandigital numbers with this property.
 
-(ns problem043)
+(ns problem043
+  (:use [utils :only (primes-under permutations digits->number |)]))
 
 (defn solve []
-  nil)
+  (let [ps (primes-under 17)]
+    (reduce + (for [ds (permutations (range 10))
+		    :let [ns (map digits->number (rest (partition 3 1 ds)))]
+		    :when (every? identity (map | ns ps))]
+		(digits->number ds)))))
