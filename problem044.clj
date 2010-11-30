@@ -12,7 +12,35 @@
 ;; their sum and difference is pentagonal and D = |P_(k) − P_(j)|
 ;; is minimised; what is the value of D?
 
-(ns problem044)
+(ns problem044
+  (:use [utils :only (ceiling floor |)]))
+
+(defn pentagonal-numbers []
+  (letfn [(rec [i]
+	    (lazy-seq
+	      (cons (/ (* i (- (* 3 i) 1)) 2)
+		    (rec (inc i)))))]
+    (rec 1)))
+
+(defn pentagonal? [n]
+  (let [m (+ (* 24 n) 1)
+	s (floor (Math/sqrt m))]
+    (and (= m (* s s))
+	 (| (+ s 1) 6))))
+
+(defn pentagonal-pairs
+  "find pairs of pentagonal numbers whose difference is exactly equal to d"
+  [d]
+  (for [i (drop (floor (/ (+ 1 (Math/sqrt (+ (* 24 d) 1))) 6))
+		(take (/ (+ d 2) 3) (pentagonal-numbers)))
+	:let [j (- i d)]
+	:when (and (< j i)
+		   (pentagonal? j))]
+    [i j]))
 
 (defn solve []
-  nil)
+  (first (for [i (pentagonal-numbers)
+	       :let [_ (println i)]
+	       [j k] (pentagonal-pairs i)
+	       :when (pentagonal? (+ j k))]
+	   i)))
